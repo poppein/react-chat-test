@@ -1,7 +1,7 @@
+import _ from 'lodash';
+
 export const saveMessages = (messages) => {
-    let messagesToTake = messages.length - 10;
-    messagesToTake = messagesToTake >= 0 ? messagesToTake : 10;
-    localStorage.setItem('chat_messages', JSON.stringify(messages.slice(messages.length - 10)));
+    localStorage.setItem('chat_messages', JSON.stringify(messages.slice(Math.max(messages.length - 10, 0))));
 };
 
 export const loadMessages = () => {
