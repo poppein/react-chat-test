@@ -1,0 +1,23 @@
+{
+  "name": "react-chat-test",
+  "version": "1.0.0",
+  "description": "Small chat based on react",
+  "scripts": {
+    "server": "node ./src/backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poppein/react-chat-test.git"
+  },
+  "dependencies": {
+    "websocket": "^1.0.25"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/poppein/react-chat-test/issues"
+  },
+  "homepage": "https://github.com/poppein/react-chat-test#readme"
+}
