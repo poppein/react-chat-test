@@ -1,0 +1,24 @@
+@import 'vars';
+
+.countdown {
+    position: absolute;
+    width: $chat-width;
+    height: $chat-height;
+}
+
+.countdownBack {
+    position: absolute;
+    background-color: lightgray;
+    opacity: 0.5;
+    width: $chat-width;
+    height: $chat-height;
+    border-radius: 10px;
+}
+
+.countdownText {
+    top: 25%;
+    position: relative;
+    text-align: center;
+    z-index: 1;
+    font-size: 7em;
+}

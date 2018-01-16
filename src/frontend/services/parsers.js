@@ -1,4 +1,4 @@
-import {textMessage, changeNickname, deleteLast, fadeLast} from '../actions';
+import {textMessage, changeNickname, deleteLast, fadeLast, countdown} from '../actions';
 
 const parser = (condition, parsingFunc) => {
     return (text) => {
@@ -31,6 +31,14 @@ export const fdl = parser((text) => text.startsWith('/fadelast'), () => fadeLast
 export const highlight = parser((text) => text.startsWith('/highlight'), (text) => {
     if (text.substring(11) !== '') {
         return textMessage(text.substring(11), 'highlight');
+    }
+    return undefined;
+});
+
+export const cd = parser((text) => text.startsWith('/countdown'), (text) => {
+    let textSplit = text.split(' ');
+    if (textSplit.length > 2) {
+        return countdown(textSplit[1], textSplit[2]);
     }
     return undefined;
 });

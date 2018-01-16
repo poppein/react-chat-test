@@ -1,4 +1,4 @@
-import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST, USER_TYPING} from '../actions/actionTypes';
+import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST, USER_TYPING, COUNTDOWN} from '../actions/actionTypes';
 import _ from 'lodash';
 import {saveMessages, saveNicknames} from '../services/db';
 
@@ -53,6 +53,15 @@ export default (state = initialState, action) => {
         case USER_TYPING: {
             if (action.payload.from === 'them') {
               return {...state, isTyping: action.payload.isTyping};
+            }
+            return state;
+        }
+        case COUNTDOWN: {
+            if (action.payload.from === 'them') {
+              return {
+                ...state,
+                countdown: {number: action.payload.number, redirectTo: action.payload.redirectTo}
+              };
             }
             return state;
         }

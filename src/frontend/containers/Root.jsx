@@ -50,16 +50,17 @@ export class Root extends React.Component {
     }
 
     render() {
-        let {messages, nickname, isTyping} = this.props;
+        let {messages, nickname, isTyping, cd} = this.props;
         return (
             <div>
-                <Chat messages={messages} onMessageSubmitted={(text) => this.parseAndSend(text)} nickname={nickname} isTyping={isTyping} onUserTyping={(value) => this.onUserTyping(value)}/>
+                <Chat countdown={cd} messages={messages} onMessageSubmitted={(text) => this.parseAndSend(text)} nickname={nickname} isTyping={isTyping} onUserTyping={(value) => this.onUserTyping(value)}/>
             </div>
         );
     }
 }
 
 Root.propTypes = {
+    cd: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     isTyping: PropTypes.bool,
     messages: PropTypes.array.isRequired,
@@ -69,6 +70,7 @@ Root.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
+        cd: state.countdown,
         messages: state.messages,
         nickname: state.nicknames.them,
         isTyping: state.isTyping

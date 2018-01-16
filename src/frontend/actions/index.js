@@ -1,4 +1,4 @@
-import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST, USER_TYPING} from './actionTypes';
+import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST, USER_TYPING, COUNTDOWN} from './actionTypes';
 
 export const textMessage = (text, styles) => {
     return {
@@ -35,5 +35,12 @@ export const userTyping = (isTyping) => {
     return {
         type: USER_TYPING,
         payload: {from: 'me', isTyping}
+    };
+};
+
+export const countdown = (number, url) => {
+    return {
+        type: COUNTDOWN,
+        payload: {from: 'me', number, redirectTo: url}
     };
 };
