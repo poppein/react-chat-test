@@ -51,6 +51,15 @@ test('fdl parser should return a fadeLast message when provided the right text',
     t.deepEqual(parsers.fdl('/fadelast'), expected);
 });
 
+test('highlight parser should return undefined when not provided the right text', t => {
+    t.deepEqual(parsers.highlight('bla bla'), undefined);
+});
+
+test('highlight parser should return a text message with highlight style when provided the right text', t => {
+    let expected = textMessage('something', 'highlight');
+    t.deepEqual(parsers.highlight('/highlight something'), expected);
+});
+
 test.after(() => {
     clock.restore();
 });

@@ -28,4 +28,11 @@ export const oops = parser((text) => text.startsWith('/oops'), () => deleteLast(
 
 export const fdl = parser((text) => text.startsWith('/fadelast'), () => fadeLast());
 
+export const highlight = parser((text) => text.startsWith('/highlight'), (text) => {
+    if (text.substring(11) !== '') {
+        return textMessage(text.substring(11), 'highlight');
+    }
+    return undefined;
+});
+
 export default (text) => (textMessage(text));
