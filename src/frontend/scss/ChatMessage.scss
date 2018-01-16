@@ -7,11 +7,12 @@
     padding:10px 20px;
     margin: 5px;
     word-wrap: break-word;
+    transition: transform 0.5s ease, max-height 0.4s ease, opacity 0.5s ease;
 
     &.fromMe {
         align-self: flex-end; 
         background:$me-bubble-color;
-        transform: translateX(0px);
+        transform: translateX($chat-width);
 
         &:before {
             content:"";
@@ -38,6 +39,12 @@
             transform:translate(-30px, -2px);
         }
 
+        &.show {
+            transform: translateX(-4px);
+            margin: 5px;
+            max-height: 200px;
+        }
+
         &.highlight {
             background-color: darken($me-bubble-color, 10%);
             &:before {
@@ -49,7 +56,7 @@
     &.fromThem {
         align-self: flex-start;
         background: $them-bubble-color;
-        transform: translateX(0px);
+        transform: translateX(-$chat-width);
 
         &:before {
             content:"";
@@ -74,6 +81,12 @@
             background:white;
             border-bottom-right-radius: 10px;
             transform:translate(-30px, -2px);
+        }
+
+        &.show {
+            transform: translateX(4px);
+            margin: 5px;
+            max-height: 200px;
         }
 
         &.highlight {
