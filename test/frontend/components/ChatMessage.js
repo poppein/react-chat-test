@@ -19,6 +19,11 @@ test('should render a div with right class', t => {
     t.true(wrapper.hasClass('fromThem'));
 });
 
+test('should render a div with right class and additional styles when provided', t => {
+    let wrapper = shallow(<ChatMessage message={{text: 'hello', from: 'me', styles: 'think'}}/>);
+    t.true(wrapper.hasClass('think'));
+});
+
 test('should render the message text passed in', t => {
     let wrapper = shallow(<ChatMessage message={{text: 'hello'}}/>);
     t.is(wrapper.props().children, 'hello');

@@ -20,7 +20,8 @@ test('should add message to messages when handling TEXT_MESSAGE', t => {
         messages: [{
             from: 'me',
             text: 'hi',
-            date: 500
+            date: 500,
+            styles: undefined
         }]
     });
 });

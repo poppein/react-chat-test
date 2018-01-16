@@ -1,9 +1,9 @@
 import {TEXT_MESSAGE, CHANGE_NICKNAME} from './actionTypes';
 
-export const textMessage = (text) => {
+export const textMessage = (text, styles) => {
     return {
         type: TEXT_MESSAGE,
-        payload: {from: 'me', text, date: Date.now()}
+        payload: {from: 'me', text, date: Date.now(), styles}
     };
 };
 

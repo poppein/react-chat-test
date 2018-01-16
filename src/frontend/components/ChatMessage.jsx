@@ -4,7 +4,7 @@ import styles from '../scss/ChatMessage.scss';
 import classNames from 'classnames';
 
 const ChatMessage = ({message}) => {
-    let className = classNames('chatMessage', {fromMe: message.from === 'me'}, {fromThem: message.from === 'them'});
+    let className = classNames('chatMessage', {fromMe: message.from === 'me'}, {fromThem: message.from === 'them'}, message.styles);
     return (
             <div className={className}>
                 {message.text}

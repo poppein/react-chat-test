@@ -10,13 +10,14 @@ test.before(() => {
 
 test('textMessage should return proper action', t => {
     clock.tick(500);
-    let action = textMessage('hello word');
+    let action = textMessage('hello word', 'fade');
     t.deepEqual(action, {
         type: 'TEXT_MESSAGE',
         payload: {
             from: 'me',
             text: 'hello word',
-            date: 500
+            date: 500,
+            styles: 'fade'
         }
     });
 });

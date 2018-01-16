@@ -17,4 +17,11 @@ export const nick = parser((text) => text.startsWith('/nick'), (text) => {
     return undefined;
 });
 
+export const think = parser((text) => text.startsWith('/think'), (text) => {
+    if (text.substring(7) !== '') {
+        return textMessage(text.substring(7), 'think');
+    }
+    return undefined;
+});
+
 export default (text) => (textMessage(text));
