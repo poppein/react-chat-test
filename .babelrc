@@ -5,6 +5,7 @@
       "stage-2"
     ],
     "plugins": [
+      "lodash",
       "react-hot-loader/babel",
       "transform-runtime"
     ]

@@ -5,4 +5,6 @@
     height: $chat-height;
     border: solid lightgray 1px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
