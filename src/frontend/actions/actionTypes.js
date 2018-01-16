@@ -1,0 +1,1 @@
+export const TEXT_MESSAGE = 'TEXT_MESSAGE';
