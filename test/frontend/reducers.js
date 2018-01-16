@@ -1,7 +1,7 @@
 import test from 'ava';
 import sinon from 'sinon';
 import reducerFunc from '../../src/frontend/reducers';
-import {textMessage, changeNickname, deleteLast, fadeLast} from '../../src/frontend/actions';
+import {textMessage, changeNickname, deleteLast, fadeLast, userTyping} from '../../src/frontend/actions';
 import * as dbFunc from '../../src/frontend/services/db';
 
 let clock, saveMessagesStub, saveNicknamesStub;
@@ -82,6 +82,20 @@ test('should add proper style to last message when handling FADE_LAST', t => {
     t.deepEqual(newState, {
         messages: [{text: 'hey', date: 1, from: 'me'}, {text: 'hi', date: 2, from: 'them', styles: 'fade'}]
     });
+});
+
+test('should set isTyping when handling USER_TYPING of other user', t => {
+    let action = userTyping(true);
+    let state = {isTyping: false};
+
+    let newState = reducerFunc(state, action);
+
+    t.deepEqual(newState, {isTyping: false});
+
+    action.payload.from = 'them';
+    newState = reducerFunc(state, action);
+
+    t.deepEqual(newState, {isTyping: true});
 });
 
 test.after(() => {

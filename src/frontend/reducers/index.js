@@ -1,10 +1,11 @@
-import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST} from '../actions/actionTypes';
+import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST, USER_TYPING} from '../actions/actionTypes';
 import _ from 'lodash';
 import {saveMessages, saveNicknames} from '../services/db';
 
 const initialState = {
     messages: [],
-    nicknames: {me: 'Anonymous', them: 'Anonymous'}
+    nicknames: {me: 'Anonymous', them: 'Anonymous'},
+    isTyping: false
   };
 
 export default (state = initialState, action) => {
@@ -46,6 +47,12 @@ export default (state = initialState, action) => {
             if (state.messages.length > 0 && action.payload.from === 'me') {
               let lastMessage = state.messages[state.messages.length - 1];
               return {...state, messages: [...state.messages.slice(0, state.messages.length - 1), {...lastMessage, styles: 'fade'}]};
+            }
+            return state;
+        }
+        case USER_TYPING: {
+            if (action.payload.from === 'them') {
+              return {...state, isTyping: action.payload.isTyping};
             }
             return state;
         }

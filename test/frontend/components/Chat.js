@@ -6,6 +6,7 @@ import {configure, shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import Chat from '../../../src/frontend/components/Chat';
+import ChatTyping from '../../../src/frontend/components/ChatTyping';
 import ChatHeader from '../../../src/frontend/components/ChatHeader';
 import ChatDisplay from '../../../src/frontend/components/ChatDisplay';
 import ChatInput from '../../../src/frontend/components/ChatInput';
@@ -35,8 +36,19 @@ test('should render a display with all messages', t => {
 
 test('should render an input to type in text', t => {
     let spy = sinon.spy();
-    let wrapper = shallow(<Chat messages={messages} onMessageSubmitted={spy} nickname={'testNickname'}/>);
+    let spy2 = sinon.spy();
+    let wrapper = shallow(<Chat messages={messages} onMessageSubmitted={spy} nickname={'testNickname'} onUserTyping={spy2}/>);
     let input = wrapper.find(ChatInput);
     t.is(input.length, 1);
     t.is(input.props().onMessageSubmitted, spy);
+    t.is(input.props().onUserTyping, spy2);
+});
+
+test('should render a component to display when user is typing', t => {
+    let spy = sinon.spy();
+    let wrapper = shallow(<Chat messages={messages} onMessageSubmitted={sinon.spy()} nickname={'testNickname'} isTyping/>);
+    let typing = wrapper.find(ChatTyping);
+    t.is(typing.length, 1);
+    t.is(typing.props().userTyping, 'testNickname');
+    t.is(typing.props().isTyping, true);
 });

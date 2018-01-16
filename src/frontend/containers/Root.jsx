@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Chat from '../components/Chat';
 import {connect} from 'react-redux';
-import {textMessage, changeNickname} from '../actions';
+import {textMessage, changeNickname, userTyping} from '../actions';
 import {ChatClient} from '../services/chatClient';
 import _ from 'lodash';
 
@@ -44,11 +44,16 @@ export class Root extends React.Component {
         return text;
     }
 
+    onUserTyping(value) {
+        let message = userTyping(value);
+        this.send(message);
+    }
+
     render() {
-        let {messages, nickname} = this.props;
+        let {messages, nickname, isTyping} = this.props;
         return (
             <div>
-                <Chat messages={messages} onMessageSubmitted={(text) => this.parseAndSend(text)} nickname={nickname}/>
+                <Chat messages={messages} onMessageSubmitted={(text) => this.parseAndSend(text)} nickname={nickname} isTyping={isTyping} onUserTyping={(value) => this.onUserTyping(value)}/>
             </div>
         );
     }
@@ -56,6 +61,7 @@ export class Root extends React.Component {
 
 Root.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    isTyping: PropTypes.bool,
     messages: PropTypes.array.isRequired,
     nickname: PropTypes.string.isRequired,
     parsers: PropTypes.object
@@ -64,7 +70,8 @@ Root.propTypes = {
 const mapStateToProps = (state) => {
     return {
         messages: state.messages,
-        nickname: state.nicknames.them
+        nickname: state.nicknames.them,
+        isTyping: state.isTyping
     };
 };
 

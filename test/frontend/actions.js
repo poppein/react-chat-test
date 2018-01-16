@@ -1,6 +1,6 @@
 import test from 'ava';
 import sinon from 'sinon';
-import {textMessage, changeNickname, deleteLast, fadeLast} from '../../src/frontend/actions';
+import {textMessage, changeNickname, deleteLast, fadeLast, userTyping} from '../../src/frontend/actions';
 
 let clock;
 
@@ -49,6 +49,26 @@ test('fadeLast should return proper action', t => {
         type: 'FADE_LAST',
         payload: {
             from: 'me'
+        }
+    });
+});
+
+test('userTyping should return proper action', t => {
+    let action = userTyping(true);
+    t.deepEqual(action, {
+        type: 'USER_TYPING',
+        payload: {
+            from: 'me',
+            isTyping: true
+        }
+    });
+
+    action = userTyping(false);
+    t.deepEqual(action, {
+        type: 'USER_TYPING',
+        payload: {
+            from: 'me',
+            isTyping: false
         }
     });
 });

@@ -1,4 +1,4 @@
-import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST} from './actionTypes';
+import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST, USER_TYPING} from './actionTypes';
 
 export const textMessage = (text, styles) => {
     return {
@@ -28,5 +28,12 @@ export const fadeLast = () => {
     return {
         type: FADE_LAST,
         payload: {from: 'me'}
+    };
+};
+
+export const userTyping = (isTyping) => {
+    return {
+        type: USER_TYPING,
+        payload: {from: 'me', isTyping}
     };
 };
