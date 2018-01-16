@@ -3,14 +3,32 @@ import PropTypes from 'prop-types';
 import Chat from '../components/Chat';
 import {connect} from 'react-redux';
 import {textMessage} from '../actions';
+import {ChatClient} from '../services/chatClient';
 
-export const Root = ({messages, dispatch, nickname}) => {
-    return (
-        <div>
-            <Chat messages={messages} onMessageSubmitted={(text) => dispatch(textMessage(text))} nickname={nickname}/>
-        </div>
-    );
-};
+export class Root extends React.Component {
+    constructor(props) {
+        super(props);
+        let {dispatch} = this.props;
+        this.chatClient = new ChatClient({dispatch});
+        this.chatClient.connect('ws://localhost:1337');
+    }
+
+    send(text) {
+        let {dispatch} = this.props;
+        let message = textMessage(text);
+        this.chatClient.sendMessage(message);
+        dispatch(message);
+    }
+
+    render() {
+        let {messages, nickname} = this.props;
+        return (
+            <div>
+                <Chat messages={messages} onMessageSubmitted={(text) => this.send(text)} nickname={nickname}/>
+            </div>
+        );
+    }
+}
 
 Root.propTypes = {
     dispatch: PropTypes.func.isRequired,

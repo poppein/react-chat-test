@@ -18,6 +18,7 @@ test('should add message to messages when handling TEXT_MESSAGE', t => {
 
     t.deepEqual(newState, {
         messages: [{
+            from: 'me',
             text: 'hi',
             date: 500
         }]

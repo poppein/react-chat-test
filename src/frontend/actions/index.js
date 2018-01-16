@@ -3,6 +3,6 @@ import {TEXT_MESSAGE} from './actionTypes';
 export const textMessage = (text) => {
     return {
         type: TEXT_MESSAGE,
-        payload: {text, date: Date.now()}
+        payload: {from: 'me', text, date: Date.now()}
     };
 };

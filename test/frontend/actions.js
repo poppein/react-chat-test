@@ -14,6 +14,7 @@ test('textMessage should return proper action', t => {
     t.deepEqual(action, {
         type: 'TEXT_MESSAGE',
         payload: {
+            from: 'me',
             text: 'hello word',
             date: 500
         }

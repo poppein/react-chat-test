@@ -8,14 +8,18 @@ import React from 'react';
 import {Root} from '../../../src/frontend/containers/Root';
 import Chat from '../../../src/frontend/components/Chat';
 import {textMessage} from '../../../src/frontend/actions';
+import {ChatClient} from '../../../src/frontend/services/chatClient';
 
 configure({adapter: new Adapter()});
 
 let messages = [{text: 'hello'}, {text: 'hi'}, {text: 'how are ya ?'}];
-let clock;
+let clock, sendMessageStub, constructorStub, connectStub;
 
 test.before(() => {
     clock = sinon.useFakeTimers();
+    constructorStub = sinon.stub(ChatClient.prototype, 'constructor');
+    sendMessageStub = sinon.stub(ChatClient.prototype, 'sendMessage');
+    connectStub = sinon.stub(ChatClient.prototype, 'connect');
 });
 
 test('should render a Chat with proper messages and nickname', t => {
@@ -36,6 +40,21 @@ test('should dispatch a textMessage action when new message typed in chat', t =>
 
     t.is(dispatchSpy.callCount, 1);
     t.deepEqual(dispatchSpy.getCall(0).args[0], expected);
+});
+
+test('should connect to server', t => {
+    let dispatchSpy = sinon.spy();
+    let wrapper = shallow(<Root messages={messages} dispatch={dispatchSpy} nickname={'test'}/>);
+
+    t.true(connectStub.withArgs('ws://localhost:1337').called);
+});
+
+test('should send message to server when new message typed in chat', t => {
+    let wrapper = shallow(<Root messages={messages} dispatch={sinon.spy()} nickname={'test'}/>);
+    wrapper.find(Chat).props().onMessageSubmitted('hoy hoy');
+    let expected = textMessage('hoy hoy');
+
+    t.is(sendMessageStub.withArgs(expected).callCount, 1);
 });
 
 test.after(() => {
