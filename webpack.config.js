@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+require('dotenv').config();
 
 module.exports = {
     entry: [
@@ -68,7 +69,9 @@ module.exports = {
         new ExtractTextPlugin('style.css'),
         new webpack.DefinePlugin({
             'process.env': {
-              'NODE_ENV': '"development"'
+              'NODE_ENV': '"development"',
+              'SERVER_ADDRESS': `"${process.env.SERVER_ADDRESS}"`,
+              'SERVER_PORT': process.env.SERVER_PORT
             }
           }),
         new webpack.HotModuleReplacementPlugin(),

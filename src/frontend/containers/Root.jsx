@@ -11,7 +11,7 @@ export class Root extends React.Component {
         super(props);
         let {dispatch} = this.props;
         this.chatClient = new ChatClient({dispatch});
-        this.chatClient.connect('ws://localhost:1337');
+        this.chatClient.connect(`ws://${process.env.SERVER_ADDRESS}:${process.env.SERVER_PORT}`);
     }
 
     send(message) {
