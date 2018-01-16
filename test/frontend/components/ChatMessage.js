@@ -10,8 +10,13 @@ import ChatMessage from '../../../src/frontend/components/ChatMessage';
 configure({adapter: new Adapter()});
 
 test('should render a div with right class', t => {
-    let wrapper = shallow(<ChatMessage message={{text: 'hello'}}/>);
+    let wrapper = shallow(<ChatMessage message={{text: 'hello', from: 'me'}}/>);
     t.true(wrapper.hasClass('chatMessage'));
+    t.true(wrapper.hasClass('fromMe'));
+
+    wrapper = shallow(<ChatMessage message={{text: 'hello', from: 'them'}}/>);
+    t.true(wrapper.hasClass('chatMessage'));
+    t.true(wrapper.hasClass('fromThem'));
 });
 
 test('should render the message text passed in', t => {

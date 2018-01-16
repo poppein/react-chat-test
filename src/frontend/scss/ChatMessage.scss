@@ -1,4 +1,73 @@
+@import 'vars';
+
 .chatMessage {
     color:black; 
+    border-radius: 25px;
+    max-width: $chat-width - 50px;
+    padding:10px 20px;
+    margin: 5px;
+    word-wrap: break-word;
+
+    &.fromMe {
+        align-self: flex-end; 
+        background:$me-bubble-color;
+        transform: translateX(0px);
+
+        &:before {
+            content:"";
+            position:absolute;
+            z-index:-1;
+            bottom:-2px;
+            right:-7px;
+            height:20px;
+            border-right:20px solid $me-bubble-color;
+            border-bottom-left-radius: 16px 14px;
+            transform:translate(0, -2px);
+        }
+    
+        &:after {
+            content:"";
+            position:absolute;
+            z-index:1;
+            bottom:-2px;
+            right:-56px;
+            width:26px;
+            height:20px;
+            background:white;
+            border-bottom-left-radius: 10px;
+            transform:translate(-30px, -2px);
+        }
+    }
+
+    &.fromThem {
+        align-self: flex-start;
+        background: $them-bubble-color;
+        transform: translateX(0px);
+
+        &:before {
+            content:"";
+            position:absolute;
+            z-index:2;
+            bottom:-2px;
+            left:-7px;
+            height:20px;
+            border-left:20px solid $them-bubble-color;
+            border-bottom-right-radius: 16px 14px;
+            transform:translate(0, -2px);
+        }
+    
+        &:after {
+            content:"";
+            position:absolute;
+            z-index:3;
+            bottom:-2px;
+            left:4px;
+            width:26px;
+            height:20px;
+            background:white;
+            border-bottom-right-radius: 10px;
+            transform:translate(-30px, -2px);
+        }
+    }
 }
 
