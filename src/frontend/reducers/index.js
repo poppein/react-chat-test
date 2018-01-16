@@ -1,4 +1,5 @@
-import {TEXT_MESSAGE, CHANGE_NICKNAME} from '../actions/actionTypes';
+import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE} from '../actions/actionTypes';
+import _ from 'lodash';
 
 const initialState = {
     messages: [],
@@ -23,7 +24,20 @@ export default (state = initialState, action) => {
               }
             };
             return newState;
-          }
+        }
+        case DELETE_LAST_MESSAGE: {
+            let recipientMessages = state.messages.filter(message => message.from === action.payload.from);
+            if (recipientMessages.length > 0) {
+              let messageToRemove = _.orderBy(recipientMessages, ['date'], ['desc'])[0];
+              let indexToRemove = state.messages.indexOf(messageToRemove);
+              let newState = {
+                ...state,
+                messages: [...state.messages.slice(0, indexToRemove), ...state.messages.slice(indexToRemove + 1)]
+              };
+              return newState;
+            }
+            return state;
+        }
         default:
           return state;
       }

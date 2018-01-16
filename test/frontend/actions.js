@@ -1,6 +1,6 @@
 import test from 'ava';
 import sinon from 'sinon';
-import {textMessage, changeNickname} from '../../src/frontend/actions';
+import {textMessage, changeNickname, deleteLast} from '../../src/frontend/actions';
 
 let clock;
 
@@ -29,6 +29,16 @@ test('changeNickname should return proper action', t => {
         payload: {
             from: 'me',
             nickname: 'newNickname'
+        }
+    });
+});
+
+test('deleteLast should return proper action', t => {
+    let action = deleteLast();
+    t.deepEqual(action, {
+        type: 'DELETE_LAST_MESSAGE',
+        payload: {
+            from: 'me'
         }
     });
 });
