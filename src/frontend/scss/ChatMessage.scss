@@ -7,7 +7,7 @@
     padding:10px 20px;
     margin: 5px;
     word-wrap: break-word;
-
+    
     &.fromMe {
         align-self: flex-end; 
         background:$me-bubble-color;
@@ -72,6 +72,10 @@
 
     &.think {
         color: darkgray;
+    }
+
+    .smiley {
+        height: 20px;
     }
 }
 
