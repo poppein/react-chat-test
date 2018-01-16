@@ -31,26 +31,34 @@ test('should render a Chat with proper messages and nickname', t => {
     t.is(chat.props().nickname, 'test');
 });
 
-test('should dispatch a textMessage action when new message typed in chat', t => {
+test('should dispatch a default parser action when new message typed in chat and no parser successfully parsed it', t => {
     let dispatchSpy = sinon.spy();
-    let wrapper = shallow(<Root messages={messages} dispatch={dispatchSpy} nickname={'test'}/>);
+    let parsers = {
+        default: sinon.stub().withArgs('hey there').returns('message'),
+        parser1: sinon.stub(),
+        parser2: sinon.stub()
+    };
+
+    let wrapper = shallow(<Root messages={messages} dispatch={dispatchSpy} nickname={'test'} parsers={parsers}/>);
     wrapper.find(Chat).props().onMessageSubmitted('hey there');
 
-    let expected = textMessage('hey there');
-
     t.is(dispatchSpy.callCount, 1);
-    t.deepEqual(dispatchSpy.getCall(0).args[0], expected);
+    t.deepEqual(dispatchSpy.getCall(0).args[0], 'message');
 });
 
-test('should dispatch a changeNickname action when /nick typed in chat', t => {
+test('should dispatch the parser action when successfully parsing new message typed in chat', t => {
     let dispatchSpy = sinon.spy();
-    let wrapper = shallow(<Root messages={messages} dispatch={dispatchSpy} nickname={'test'}/>);
-    wrapper.find(Chat).props().onMessageSubmitted('/nick Pierre');
+    let parsers = {
+        default: sinon.stub().withArgs('hoy there').returns('message'),
+        parser1: sinon.stub().withArgs('hoy there').returns('parsed'),
+        parser2: sinon.stub()
+    };
 
-    let expected = changeNickname('Pierre');
+    let wrapper = shallow(<Root messages={messages} dispatch={dispatchSpy} nickname={'test'} parsers={parsers}/>);
+    wrapper.find(Chat).props().onMessageSubmitted('hoy there');
 
     t.is(dispatchSpy.callCount, 1);
-    t.deepEqual(dispatchSpy.getCall(0).args[0], expected);
+    t.deepEqual(dispatchSpy.getCall(0).args[0], 'parsed');
 });
 
 test('should connect to server', t => {
@@ -60,12 +68,17 @@ test('should connect to server', t => {
     t.true(connectStub.withArgs('ws://localhost:1337').called);
 });
 
-test('should send message to server when new message typed in chat', t => {
-    let wrapper = shallow(<Root messages={messages} dispatch={sinon.spy()} nickname={'test'}/>);
-    wrapper.find(Chat).props().onMessageSubmitted('hoy hoy');
-    let expected = textMessage('hoy hoy');
+test('should send parsed message to server', t => {
+    let parsers = {
+        default: sinon.stub().withArgs('hoy hoy').returns('messageParsed'),
+        parser1: sinon.stub(),
+        parser2: sinon.stub()
+    };
 
-    t.is(sendMessageStub.withArgs(expected).callCount, 1);
+    let wrapper = shallow(<Root messages={messages} dispatch={sinon.spy()} nickname={'test'} parsers={parsers}/>);
+    wrapper.find(Chat).props().onMessageSubmitted('hoy hoy');
+
+    t.is(sendMessageStub.withArgs('messageParsed').callCount, 1);
 });
 
 test.after(() => {

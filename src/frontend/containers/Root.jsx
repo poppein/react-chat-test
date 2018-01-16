@@ -4,6 +4,7 @@ import Chat from '../components/Chat';
 import {connect} from 'react-redux';
 import {textMessage, changeNickname} from '../actions';
 import {ChatClient} from '../services/chatClient';
+import _ from 'lodash';
 
 export class Root extends React.Component {
     constructor(props) {
@@ -27,13 +28,20 @@ export class Root extends React.Component {
     }
 
     parse(text) {
-        if (text.startsWith('/nick')) {
-            let textSplit = text.split(' ');
-            if (textSplit.length > 1) {
-                return changeNickname(textSplit[1]);
+        let {parsers} = this.props;
+        if (parsers) {
+            let parsedText;
+            _.forEach(parsers, (parser, key) => {
+                if (key !== 'default' && _.isUndefined(parsedText)) {
+                    parsedText = parser(text);
+                }
+            });
+            if (_.isUndefined(parsedText)) {
+                return parsers.default(text);
             }
+            return parsedText;
         }
-        return textMessage(text);
+        return text;
     }
 
     render() {
@@ -49,7 +57,8 @@ export class Root extends React.Component {
 Root.propTypes = {
     dispatch: PropTypes.func.isRequired,
     messages: PropTypes.array.isRequired,
-    nickname: PropTypes.string.isRequired
+    nickname: PropTypes.string.isRequired,
+    parsers: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
