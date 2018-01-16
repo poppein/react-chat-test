@@ -2,11 +2,14 @@ import test from 'ava';
 import sinon from 'sinon';
 import reducerFunc from '../../src/frontend/reducers';
 import {textMessage, changeNickname, deleteLast} from '../../src/frontend/actions';
+import * as dbFunc from '../../src/frontend/services/db';
 
-let clock;
+let clock, saveMessagesStub, saveNicknamesStub;
 
 test.before(() => {
     clock = sinon.useFakeTimers();
+    saveMessagesStub = sinon.stub(dbFunc, 'saveMessages');
+    saveNicknamesStub = sinon.stub(dbFunc, 'saveNicknames');
 });
 
 test('should add message to messages when handling TEXT_MESSAGE', t => {
@@ -24,6 +27,16 @@ test('should add message to messages when handling TEXT_MESSAGE', t => {
             styles: undefined
         }]
     });
+});
+
+test('should save messages when handling TEXT_MESSAGE', t => {
+    clock.tick(500);
+    let action = textMessage('hi');
+    let state = {messages: [{text: 'message'}]};
+
+    let newState = reducerFunc(state, action);
+
+    t.true(saveMessagesStub.withArgs(newState.messages).called);
 });
 
 test('should add nickname when handling CHANGE_NICKNAME', t => {
@@ -49,6 +62,15 @@ test('should remove last message of the user when handling DELETE_LAST_MESSAGE',
     t.deepEqual(newState, {
         messages: [{text: 'hey', date: 1, from: 'me'}, {text: 'hi', date: 2, from: 'them'}, {text: 'not much', date: 4, from: 'them'}]
     });
+});
+
+test('should save messages when handling DELETE_LAST_MESSAGE', t => {
+    let action = deleteLast();
+    let state = {messages: [{text: 'hey', date: 1, from: 'me'}, {text: 'hi', date: 2, from: 'them'}]};
+
+    let newState = reducerFunc(state, action);
+
+    t.true(saveMessagesStub.withArgs(newState.messages).called);
 });
 
 test.after(() => {

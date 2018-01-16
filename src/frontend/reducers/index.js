@@ -1,5 +1,6 @@
 import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE} from '../actions/actionTypes';
 import _ from 'lodash';
+import {saveMessages, saveNicknames} from '../services/db';
 
 const initialState = {
     messages: [],
@@ -13,6 +14,7 @@ export default (state = initialState, action) => {
             ...state,
             messages: [...state.messages, action.payload]
           };
+          saveMessages(newState.messages);
           return newState;
         }
         case CHANGE_NICKNAME: {
@@ -23,6 +25,7 @@ export default (state = initialState, action) => {
                 [action.payload.from]: action.payload.nickname
               }
             };
+            saveNicknames(newState.nicknames);
             return newState;
         }
         case DELETE_LAST_MESSAGE: {
@@ -34,6 +37,7 @@ export default (state = initialState, action) => {
                 ...state,
                 messages: [...state.messages.slice(0, indexToRemove), ...state.messages.slice(indexToRemove + 1)]
               };
+              saveMessages(newState.messages);
               return newState;
             }
             return state;

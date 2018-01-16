@@ -7,9 +7,12 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import chatReducer from './reducers';
 import * as parsers from './services/parsers';
+import {loadMessages, loadNicknames} from './services/db';
 
 const rootElement = document.getElementById('root');
-let store = createStore(chatReducer, undefined, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const messages = loadMessages() || [];
+const nicknames = loadNicknames() || {me: 'Anonymous', them: 'Anonymous'};
+let store = createStore(chatReducer, {messages, nicknames}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 const render = (Component) => {
   ReactDOM.render(
