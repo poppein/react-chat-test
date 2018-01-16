@@ -26,5 +26,5 @@ test('should render a div with right class and additional styles when provided',
 
 test('should render the message text passed in', t => {
     let wrapper = shallow(<ChatMessage message={{text: 'hello'}}/>);
-    t.is(wrapper.props().children, 'hello');
+    t.deepEqual(wrapper.props().children, ['hello']);
 });

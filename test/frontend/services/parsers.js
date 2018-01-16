@@ -1,6 +1,6 @@
 import test from 'ava';
 import sinon from 'sinon';
-import {textMessage, changeNickname, deleteLast} from '../../../src/frontend/actions';
+import {textMessage, changeNickname, deleteLast, fadeLast} from '../../../src/frontend/actions';
 import * as parsers from '../../../src/frontend/services/parsers';
 
 let clock;
@@ -40,6 +40,15 @@ test('oops parser should return undefined when not provided the right text', t =
 test('oops parser should return a deleteLast message when provided the right text', t => {
     let expected = deleteLast();
     t.deepEqual(parsers.oops('/oops'), expected);
+});
+
+test('fdl parser should return undefined when not provided the right text', t => {
+    t.deepEqual(parsers.fdl('bla bla'), undefined);
+});
+
+test('fdl parser should return a fadeLast message when provided the right text', t => {
+    let expected = fadeLast();
+    t.deepEqual(parsers.fdl('/fadelast'), expected);
 });
 
 test.after(() => {

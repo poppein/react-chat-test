@@ -1,4 +1,4 @@
-import {textMessage, changeNickname, deleteLast} from '../actions';
+import {textMessage, changeNickname, deleteLast, fadeLast} from '../actions';
 
 const parser = (condition, parsingFunc) => {
     return (text) => {
@@ -25,5 +25,7 @@ export const think = parser((text) => text.startsWith('/think'), (text) => {
 });
 
 export const oops = parser((text) => text.startsWith('/oops'), () => deleteLast());
+
+export const fdl = parser((text) => text.startsWith('/fadelast'), () => fadeLast());
 
 export default (text) => (textMessage(text));

@@ -1,7 +1,7 @@
 import test from 'ava';
 import sinon from 'sinon';
 import reducerFunc from '../../src/frontend/reducers';
-import {textMessage, changeNickname, deleteLast} from '../../src/frontend/actions';
+import {textMessage, changeNickname, deleteLast, fadeLast} from '../../src/frontend/actions';
 import * as dbFunc from '../../src/frontend/services/db';
 
 let clock, saveMessagesStub, saveNicknamesStub;
@@ -71,6 +71,17 @@ test('should save messages when handling DELETE_LAST_MESSAGE', t => {
     let newState = reducerFunc(state, action);
 
     t.true(saveMessagesStub.withArgs(newState.messages).called);
+});
+
+test('should add proper style to last message when handling FADE_LAST', t => {
+    let action = fadeLast();
+    let state = {messages: [{text: 'hey', date: 1, from: 'me'}, {text: 'hi', date: 2, from: 'them'}]};
+
+    let newState = reducerFunc(state, action);
+
+    t.deepEqual(newState, {
+        messages: [{text: 'hey', date: 1, from: 'me'}, {text: 'hi', date: 2, from: 'them', styles: 'fade'}]
+    });
 });
 
 test.after(() => {

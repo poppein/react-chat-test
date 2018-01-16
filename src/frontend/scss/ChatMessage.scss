@@ -7,7 +7,7 @@
     padding:10px 20px;
     margin: 5px;
     word-wrap: break-word;
-    
+
     &.fromMe {
         align-self: flex-end; 
         background:$me-bubble-color;
@@ -74,6 +74,10 @@
         color: darkgray;
     }
 
+    &.fade {
+        opacity: 0.1;
+    }
+    
     .smiley {
         height: 20px;
     }

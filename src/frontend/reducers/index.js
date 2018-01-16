@@ -1,4 +1,4 @@
-import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE} from '../actions/actionTypes';
+import {TEXT_MESSAGE, CHANGE_NICKNAME, DELETE_LAST_MESSAGE, FADE_LAST} from '../actions/actionTypes';
 import _ from 'lodash';
 import {saveMessages, saveNicknames} from '../services/db';
 
@@ -39,6 +39,13 @@ export default (state = initialState, action) => {
               };
               saveMessages(newState.messages);
               return newState;
+            }
+            return state;
+        }
+        case FADE_LAST: {
+            if (state.messages.length > 0 && action.payload.from === 'me') {
+              let lastMessage = state.messages[state.messages.length - 1];
+              return {...state, messages: [...state.messages.slice(0, state.messages.length - 1), {...lastMessage, styles: 'fade'}]};
             }
             return state;
         }
