@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Chat from '../components/Chat';
 
 const Root = () => {
     return (
-        <div>{'Hello !'}</div>
+        <div>
+            <Chat />
+        </div>
     );
 };
 

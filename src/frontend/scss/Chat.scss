@@ -1,0 +1,8 @@
+@import 'vars';
+
+.chatbox {
+    width: $chat-width;
+    height: $chat-height;
+    border: solid lightgray 1px;
+    border-radius: 10px;
+}
