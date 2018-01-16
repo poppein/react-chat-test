@@ -1,8 +1,8 @@
-import {TEXT_MESSAGE} from '../actions/actionTypes';
+import {TEXT_MESSAGE, CHANGE_NICKNAME} from '../actions/actionTypes';
 
 const initialState = {
     messages: [],
-    nickname: 'Anonymous'
+    nicknames: {me: 'Anonymous', them: 'Anonymous'}
   };
 
 export default (state = initialState, action) => {
@@ -14,6 +14,16 @@ export default (state = initialState, action) => {
           };
           return newState;
         }
+        case CHANGE_NICKNAME: {
+            let newState = {
+              ...state,
+              nicknames: {
+                ...state.nicknames,
+                [action.payload.from]: action.payload.nickname
+              }
+            };
+            return newState;
+          }
         default:
           return state;
       }

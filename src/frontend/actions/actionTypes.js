@@ -1,1 +1,2 @@
 export const TEXT_MESSAGE = 'TEXT_MESSAGE';
+export const CHANGE_NICKNAME = 'CHANGE_NICKNAME';
